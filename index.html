@@ -14,6 +14,50 @@
           il Client è quello che vede l'utente finale. Il server è quello da cui arrivano le
           informazioni
         </p>
+        <h3>come funziona questa interazione?</h3>
+        <ul>
+          <li>
+            HTTP Request
+            <p>La richiesta che il client invia al server</p>
+          </li>
+          <li>
+            HTTP Response
+            <p>La risposta al client che arriva dal server</p>
+          </li>
+        </ul>
+
+        <h3>Quali sono le informazioni necessarie?</h3>
+        <ul>
+          <li>URL - https://google.com/apis/test</li>
+          <li>
+            Method
+            <ul>
+              <li>
+                GET: è una richiesta per ottenere informazioni dal server. Vado a leggere delle
+                risorse
+              </li>
+              <li>POST: Creo una risorsa che ancora non esiste (Un nuovo ordine su amazon)</li>
+              <li>
+                PUT: Serve per modificare una risorsa esistente (Cambio password / Messaggio da
+                modificare sui social / Cambiare il carrello di amazon)
+              </li>
+              <li>PATCH</li>
+              <li>DELETE: Come dice il nome stesso, serve per eliminare una risorsa esistente</li>
+            </ul>
+          </li>
+          <li>Headers - Authentication(richieste di autenticazioni), cookies, Content-Type</li>
+          <li>
+            Payload - data o empty: carico di dati da allegare alla richiesta,
+            <p>Si invia solo su POST e PUT</p>
+          </li>
+        </ul>
+        <h3>HTTP Response</h3>
+        Cosa ritorna dal server?
+        <ul>
+          <li>Payload contiene le informazioni richieste dalla request</li>
+          <li>Status Code fornisce il risultato dell'operazione</li>
+          <li>Headers - meta-informazioni aggiuntive</li>
+        </ul>
       </section>
     </main>
   </body>
