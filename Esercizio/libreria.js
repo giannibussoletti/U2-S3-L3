@@ -121,6 +121,7 @@ creazioneLibri()
 //
 // Cart
 
+/* #region global variable  */
 const bookTitle = document.getElementsByClassName("main-title")
 const bookImg = document.getElementsByClassName("book-img")
 const bookAsin = document.getElementsByClassName("book-asin")
@@ -130,8 +131,10 @@ const cart = document.querySelector("#cartModal .modal-body .row")
 const itemCartCount = document.getElementById("items-in-cart")
 const arrayCart = []
 const buttonTrashin = document.getElementById("svuota-carrello")
+/* #endregion */
 
 const addToCart = function (e) {
+  /* #region  addToCart Const */
   const thisTitle = bookTitle[e].innerText
   const thisImg = bookImg[e].getAttribute("src")
   const thisAsin = bookAsin[e].innerText
@@ -139,6 +142,7 @@ const addToCart = function (e) {
   const thisPrice = bookPrice[e].innerText
   const idBook = document.getElementById(e)
   const thisID = idBook.getAttribute("id")
+  /* #endregion */
 
   arrayCart.push({
     title: thisTitle,
@@ -177,7 +181,6 @@ const disableSvuotaCarrello = function () {
     buttonTrashin.setAttribute("aria-disabled", "true")
   }
 }
-
 disableSvuotaCarrello()
 
 // Cancella il singolo libro dalla libreria
