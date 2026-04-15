@@ -150,6 +150,13 @@ const addToCart = function (e) {
   const idBook = document.getElementById(e)
   const thisID = idBook.getAttribute("id")
 
+  const singleBookArray = document.getElementById(thisID)
+  const BookArrayTitle = singleBookArray.getElementsByTagName("h5")[0].innerText
+
+  // arrayCart.forEach((bookInCart, index) => {
+  //   if (arrayCart.length === 0) {
+  //     alert("questo titolo è già presente nel carrello")
+  //     console.log("ciao")    } else {
   arrayCart.push({
     title: thisTitle,
     img: thisImg,
@@ -164,6 +171,8 @@ const addToCart = function (e) {
   cartItemFunction(thisImg, thisTitle, thisPrice, thisCategory, thisAsin, thisID)
 
   itemCartCount.innerText = arrayCart.length
+  //   }
+  // })
 }
 
 memoryCart = localStorage.getItem("books")
@@ -195,4 +204,12 @@ const deleteCartBook = function (e) {
       itemCartCount.innerText = arrayCart.length
     }
   })
+}
+
+// Svuota Carrello
+const EmptyCart = function () {
+  const TrashinCart = document.querySelector("#cartModal .row")
+  TrashinCart.innerHTML = ""
+  localStorage.removeItem("books")
+  itemCartCount.innerText = 0
 }
