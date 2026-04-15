@@ -33,7 +33,7 @@ const creazioneLibri = function () {
                 <p class="card-text price-tag">${data[i].price}$</p>
                 <h6 class="book-asin card-subtitle mb-2 text-body-secondary mb-3">${data[i].asin}</h6>
                 <button onclick="addToCart(${i})" class="btn btn-primary">Aggiungi al carello</button>
-                <button href="#" onclick="deleteBook(${i})" class="btn btn-danger">Scarta</button>
+                <button onclick="" class="btn btn-danger">Scarta</button>
             </div>
         </div>
     </div>`
