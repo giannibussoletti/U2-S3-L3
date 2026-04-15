@@ -140,7 +140,6 @@ const addToCart = function (e) {
   const idBook = document.getElementById(e)
   const thisID = idBook.getAttribute("id")
 
-  console.log(localStorage.getItem("books"))
   arrayCart.push({
     title: thisTitle,
     img: thisImg,
