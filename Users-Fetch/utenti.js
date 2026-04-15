@@ -30,8 +30,8 @@ const getUsers = function () {
     // }
   )
     .then((response) => {
-      console.log(response)
-      // qui definisco quello che succede se la PROMISE va a buon fine
+      console.log("response", response)
+      // qui definisco quello che succede se la PROMISE va a buon fine E RIESCO A CONTATTARE IL SERVER
       // la PROMISE è RESOLVED, FULFILLED
       // Dentro response si trovano diverse informazioni come:
       // Lo status code (200 se è andato tutto bene)
@@ -40,11 +40,29 @@ const getUsers = function () {
       // Per estrarlo da questa response si può fare con un metodo che si chiama
       // response.json()
       // Il problema è che questo metodo a sua volta è asincrono e torna una PROMISE
+      // e dobbiamo controllare se lo stato di ok è true oppure se ci ritorna 200
+      if (response.ok) {
+        // per essere sicuri che ci sia un JSON da estrarre devo essere sicuro che la chiamata
+        // la chiamata sia andata a buon fine
+        // qui possiamo estrarre il JSON con:
+        return response.json() // dobbiamo ritornarlo, così come fetch ritorna una Promise
+      } else {
+        // qui ci possiamo finire se siamo riusciti a contattare il server
+        // ma non abbiamo avuto la possilità di ricevere quello che volevamo perché ok è false
+        // una cosa che si può fare per evitare troppi problemi è quella di RICICLARE il blocco catch
+        // e di teletrasportarmi nel blocco catch
+        throw new Error(`Risposta ricevuta, ma errore ${response.status}`)
+      }
+    })
+    .then((data) => {
+      // Qui ci ritornerà il JSON già "parsato" e quindi possiamo usare le informazioni
+      // al suo interno come preferiamo
     })
     .catch((error) => {
       console.log(error)
       // Qui definisco cosa succede se la promise è NEGATIVA
       // la PROMISE è REJECTED
+      // qui ci finosco se proprio NON RIESCO A CONTATTARE IL SERVER
     })
 }
 getUsers()
