@@ -37,4 +37,14 @@ btnDelete.classList.add("btn", "btn-danger")
 btnDelete.setAttribute("onclick", `deleteBook(${i})`)
 btnDelete.innerText = "Scarta"
 
-divCol > divCard > imgCover + divCardBody > h5 + h6
+divCol.appendChild(divCard)
+divCard.appendChild(imgCover)
+divCard.appendChild(divCardBody)
+divCardBody.appendChild(h5)
+divCardBody.appendChild(h6Category)
+divCardBody.appendChild(par)
+divCardBody.appendChild(h6Asin)
+divCardBody.appendChild(btnCart)
+divCardBody.appendChild(btnDelete)
+
+divCol > divCard > imgCover + divCardBody > h5 + h6Category + par + h6Asin + btnCart + btnDelete
