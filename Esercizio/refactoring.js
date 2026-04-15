@@ -62,6 +62,10 @@ cartItemFunction(thisImg, thisTitle, thisPrice, thisCategory, thisAsin)
 cartItemFunction(book.img, book.title, book.price, book.category, book.asin)
 
 const cartItemFunction = function (img, title, price, category, asin) {
+  const divColCart = document.createElement("div")
+  // divCol.setAttribute("id", `book-${i}`)
+  divCol.classList.add("col-12", "col-sm-6", "col-md-4", "col-lg-3", "mb-3")
+
   const divCardCart = document.createElement("div")
   divCardCart.classList.add("card")
 
@@ -89,7 +93,8 @@ const cartItemFunction = function (img, title, price, category, asin) {
   h6AsinCart.classList.add("card-subtitle", "mb-4", "text-body-secondary", "mx-3")
   h6AsinCart.innerText = asin
 
-  cart.appendChild(divCardCart)
+  cart.appendChild(divColCart)
+  divColCart.appendChild(divCardCart)
   divCardCart.appendChild(divCardBodyCart)
   divCardBodyCart.appendChild(imgCoverCart)
   divCardBodyCart.appendChild(h5CartTitle)

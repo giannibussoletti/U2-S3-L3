@@ -1,4 +1,8 @@
-const cartItemFunction = function (img, title, price, category, asin) {
+const cartItemFunction = function (img, title, price, category, asin, booknmb) {
+  const divColCart = document.createElement("div")
+  divColCart.setAttribute("id", `cart-${booknmb}`)
+  divColCart.classList.add("col-12", "col-sm-6", "mb-3")
+
   const divCardCart = document.createElement("div")
   divCardCart.classList.add("card")
 
@@ -26,22 +30,30 @@ const cartItemFunction = function (img, title, price, category, asin) {
   h6AsinCart.classList.add("card-subtitle", "mb-4", "text-body-secondary")
   h6AsinCart.innerText = asin
 
-  cart.appendChild(divCardCart)
+  const btnDeleteCart = document.createElement("button")
+  btnDeleteCart.classList.add("btn", "btn-danger")
+  btnDeleteCart.setAttribute("onclick", `deleteCartBook(${booknmb})`)
+  btnDeleteCart.innerText = "Elimina"
+
+  cart.appendChild(divColCart)
+  divColCart.appendChild(divCardCart)
   divCardCart.appendChild(divCardBodyCart)
   divCardBodyCart.appendChild(imgCoverCart)
   divCardBodyCart.appendChild(h5CartTitle)
   divCardBodyCart.appendChild(h6CategoryCart)
   divCardBodyCart.appendChild(parCart)
   divCardBodyCart.appendChild(h6AsinCart)
+  divCardBodyCart.appendChild(btnDeleteCart)
 }
 
 class Books {
-  constructor(_title, _img, _asin, _category, _price) {
+  constructor(_title, _img, _asin, _category, _price, _id) {
     this.thisTitle = _title
     this.thisImg = _img
     this.thisAsin = _asin
     this.thisCategory = _category
     this.thisPrice = _price
+    this.thisID = _id
   }
 }
 
@@ -61,7 +73,7 @@ const creazioneLibri = function () {
     .then((data) => {
       for (let i = 0; i < data.length; i++) {
         const divCol = document.createElement("div")
-        divCol.setAttribute("id", `book-${i}`)
+        divCol.setAttribute("id", i)
         divCol.classList.add("col-12", "col-sm-6", "col-md-4", "col-lg-3", "mb-3")
 
         const divCard = document.createElement("div")
@@ -125,7 +137,7 @@ const bookImg = document.getElementsByClassName("book-img")
 const bookAsin = document.getElementsByClassName("book-asin")
 const bookCategory = document.getElementsByClassName("book-category")
 const bookPrice = document.getElementsByClassName("price-tag")
-const cart = document.querySelector("#cartModal .modal-body .col-12")
+const cart = document.querySelector("#cartModal .modal-body .row")
 const itemCartCount = document.getElementById("items-in-cart")
 let arrayCart = []
 
@@ -135,6 +147,8 @@ const addToCart = function (e) {
   const thisAsin = bookAsin[e].innerText
   const thisCategory = bookCategory[e].innerText
   const thisPrice = bookPrice[e].innerText
+  const idBook = document.getElementById(e)
+  const thisID = idBook.getAttribute("id")
 
   arrayCart.push({
     title: thisTitle,
@@ -142,26 +156,43 @@ const addToCart = function (e) {
     asin: thisAsin,
     category: thisCategory,
     price: thisPrice,
+    id: thisID,
   })
 
   localStorage.setItem("books", JSON.stringify(arrayCart))
-  cartItemFunction(thisImg, thisTitle, thisPrice, thisCategory, thisAsin)
+
+  cartItemFunction(thisImg, thisTitle, thisPrice, thisCategory, thisAsin, thisID)
+
   itemCartCount.innerText = arrayCart.length
 }
 
 memoryCart = localStorage.getItem("books")
+const parseCart = JSON.parse(memoryCart)
 
 if (memoryCart) {
-  const parseCart = JSON.parse(memoryCart)
   parseCart.forEach((book) => {
     arrayCart.push(book)
-    cartItemFunction(book.img, book.title, book.price, book.category, book.asin)
+    cartItemFunction(book.img, book.title, book.price, book.category, book.asin, book.id)
   })
-  itemCartCount.innerText += parseCart.length
+  itemCartCount.innerText = parseCart.length
 }
 
-// Cancella il singolo linro
+// Cancella il singolo libro dalla libreria
 const deleteBook = function (e) {
-  const singleBook = document.getElementById(`book-${e}`)
+  const singleBook = document.getElementById(e)
   singleBook.remove()
+}
+
+//Cancella il singolo libro dal carrello
+const deleteCartBook = function (e) {
+  const singleBookCart = document.getElementById(`cart-${e}`)
+  const singleBookArray = document.querySelector(`#cart-${e} h5`).innerText
+  singleBookCart.remove()
+  arrayCart.forEach((bookDelete, index) => {
+    if (singleBookArray === bookDelete.title) {
+      arrayCart.splice(index, 1)
+      localStorage.setItem("books", JSON.stringify(arrayCart))
+      itemCartCount.innerText = arrayCart.length
+    }
+  })
 }
