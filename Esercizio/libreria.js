@@ -1,3 +1,40 @@
+const cartItemFunction = function (img, title, price, category, asin) {
+  const divCardCart = document.createElement("div")
+  divCardCart.classList.add("card")
+
+  const imgCoverCart = document.createElement("img")
+  imgCoverCart.classList.add("card-img-top")
+  imgCoverCart.setAttribute("src", img)
+  imgCoverCart.setAttribute("alt", `${title}-cover`)
+
+  const divCardBodyCart = document.createElement("div")
+  divCardBodyCart.classList.add("card-body")
+
+  const h5CartTitle = document.createElement("h5")
+  h5CartTitle.classList.add("card-title")
+  h5CartTitle.innerText = title
+
+  const h6CategoryCart = document.createElement("h6")
+  h6CategoryCart.classList.add("card-subtitle", "mb-2", "text-body-secondary")
+  h6CategoryCart.innerText = category
+
+  const parCart = document.createElement("p")
+  parCart.classList.add("card-text")
+  parCart.innerText = price
+
+  const h6AsinCart = document.createElement("h6")
+  h6AsinCart.classList.add("card-subtitle", "mb-4", "text-body-secondary")
+  h6AsinCart.innerText = asin
+
+  cart.appendChild(divCardCart)
+  divCardCart.appendChild(divCardBodyCart)
+  divCardBodyCart.appendChild(imgCoverCart)
+  divCardBodyCart.appendChild(h5CartTitle)
+  divCardBodyCart.appendChild(h6CategoryCart)
+  divCardBodyCart.appendChild(parCart)
+  divCardBodyCart.appendChild(h6AsinCart)
+}
+
 class Books {
   constructor(_title, _img, _asin, _category, _price) {
     this.thisTitle = _title
@@ -23,20 +60,55 @@ const creazioneLibri = function () {
 
     .then((data) => {
       for (let i = 0; i < data.length; i++) {
-        libreria.innerHTML += `
-    <div id="book-${i}" class="col-12 col-sm-6 col-md-4 col-lg-3 mb-3">
-        <div class="card">
-            <img src="${data[i].img}" class="book-img card-img-top" alt="${data[i].title}-cover">
-            <div class="card-body">
-                <h5 class="card-title main-title">${data[i].title}</h5>
-                <h6 class="book-category card-subtitle mb-2 text-body-secondary">${data[i].category}</h6>
-                <p class="card-text price-tag">${data[i].price}$</p>
-                <h6 class="book-asin card-subtitle mb-2 text-body-secondary mb-3">${data[i].asin}</h6>
-                <button onclick="addToCart(${i})" class="btn btn-primary">Aggiungi al carello</button>
-                <button onclick="" class="btn btn-danger">Scarta</button>
-            </div>
-        </div>
-    </div>`
+        const divCol = document.createElement("div")
+        divCol.setAttribute("id", `book-${i}`)
+        divCol.classList.add("col-12", "col-sm-6", "col-md-4", "col-lg-3", "mb-3")
+
+        const divCard = document.createElement("div")
+        divCard.classList.add("card")
+
+        const imgCover = document.createElement("img")
+        imgCover.classList.add("book-img", "card-img-top")
+        imgCover.setAttribute("src", `${data[i].img}`)
+
+        const divCardBody = document.createElement("div")
+        divCardBody.classList.add("card-body")
+
+        const h5 = document.createElement("h5")
+        h5.classList.add("card-title", "main-title")
+        h5.innerText = data[i].title
+
+        const h6Category = document.createElement("h6")
+        h6Category.classList.add("book-category", "card-subtitle", "mb-2", "text-body-secondary")
+        h6Category.innerText = data[i].category
+
+        const par = document.createElement("p")
+        par.classList.add("card-text", "price-tag")
+        par.innerText = `${data[i].price}$`
+
+        const h6Asin = document.createElement("h6")
+        h6Asin.classList.add("book-asin", "card-subtitle", "mb-2", "text-body-secondary", "mb-3")
+
+        const btnCart = document.createElement("button")
+        btnCart.classList.add("btn", "btn-primary")
+        btnCart.setAttribute("onclick", `addToCart(${i})`)
+        btnCart.innerText = "Aggiungi al carello"
+
+        const btnDelete = document.createElement("button")
+        btnDelete.classList.add("btn", "btn-danger")
+        btnDelete.setAttribute("onclick", `deleteBook(${i})`)
+        btnDelete.innerText = "Scarta"
+
+        divCol.appendChild(divCard)
+        divCard.appendChild(imgCover)
+        divCard.appendChild(divCardBody)
+        divCardBody.appendChild(h5)
+        divCardBody.appendChild(h6Category)
+        divCardBody.appendChild(par)
+        divCardBody.appendChild(h6Asin)
+        divCardBody.appendChild(btnCart)
+        divCardBody.appendChild(btnDelete)
+        libreria.appendChild(divCol)
       }
     })
     .catch((error) => {
@@ -72,18 +144,9 @@ const addToCart = function (e) {
     price: thisPrice,
   })
 
-  itemCartCount.innerText = arrayCart.length
-
   localStorage.setItem("books", JSON.stringify(arrayCart))
-  cart.innerHTML += `<div class="card mb-3">
-            <img src="${thisImg}" class="card-img-top" alt="${thisTitle}-cover">
-            <div class="card-body">
-                <h5 class="card-title">${thisTitle}</h5>
-                <h6 class="card-subtitle mb-2 text-body-secondary">${thisCategory}</h6>
-                <p class="card-text">${thisPrice}</p>
-                <h6 class="card-subtitle mb-2 text-body-secondary mb-3">${thisAsin}</h6>
-            </div>
-        </div>`
+  cartItemFunction(thisImg, thisTitle, thisPrice, thisCategory, thisAsin)
+  itemCartCount.innerText = arrayCart.length
 }
 
 memoryCart = localStorage.getItem("books")
@@ -92,15 +155,7 @@ if (memoryCart) {
   const parseCart = JSON.parse(memoryCart)
   parseCart.forEach((book) => {
     arrayCart.push(book)
-    cart.innerHTML += `<div class="card mb-3">
-            <img src="${book.img}" class="card-img-top" alt="${book.title}-cover">
-            <div class="card-body">
-                <h5 class="card-title">${book.title}</h5>
-                <h6 class="card-subtitle mb-2 text-body-secondary">${book.category}</h6>
-                <p class="card-text">${book.price}$</p>
-                <h6 class="card-subtitle mb-2 text-body-secondary mb-3">${book.asin}</h6>
-            </div>
-        </div>`
+    cartItemFunction(book.img, book.title, book.price, book.category, book.asin)
   })
   itemCartCount.innerText += parseCart.length
 }
