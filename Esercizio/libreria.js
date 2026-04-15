@@ -54,6 +54,7 @@ const bookAsin = document.getElementsByClassName("book-asin")
 const bookCategory = document.getElementsByClassName("book-category")
 const bookPrice = document.getElementsByClassName("price-tag")
 const cart = document.querySelector("#cartModal .modal-body .col-12")
+const itemCartCount = document.getElementById("items-in-cart")
 let arrayCart = []
 
 const addToCart = function (e) {
@@ -71,17 +72,18 @@ const addToCart = function (e) {
     price: thisPrice,
   })
 
+  itemCartCount.innerText = arrayCart.length
+
   localStorage.setItem("books", JSON.stringify(arrayCart))
   cart.innerHTML += `<div class="card mb-3">
             <img src="${thisImg}" class="book-img card-img-top" alt="${thisTitle}-cover">
             <div class="card-body">
                 <h5 class="card-title ">${thisTitle}</h5>
                 <h6 class="book-category card-subtitle mb-2 text-body-secondary">${thisCategory}</h6>
-                <p class="card-text">${thisPrice}$</p>
+                <p class="card-text">${thisPrice}</p>
                 <h6 class="book-asin card-subtitle mb-2 text-body-secondary mb-3">${thisAsin}</h6>
             </div>
         </div>`
-  console.log(bookTitle)
 }
 
 memoryCart = localStorage.getItem("books")
@@ -99,6 +101,7 @@ if (memoryCart) {
             </div>
         </div>`
   })
+  itemCartCount.innerText += parseCart.length
 }
 
 // Cancella il singolo linro
