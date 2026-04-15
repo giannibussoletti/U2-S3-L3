@@ -46,17 +46,6 @@ const cartItemFunction = function (img, title, price, category, asin, booknmb) {
   divCardBodyCart.appendChild(btnDeleteCart)
 }
 
-class Books {
-  constructor(_title, _img, _asin, _category, _price, _id) {
-    this.thisTitle = _title
-    this.thisImg = _img
-    this.thisAsin = _asin
-    this.thisCategory = _category
-    this.thisPrice = _price
-    this.thisID = _id
-  }
-}
-
 // Fetching
 const libreria = document.getElementById("library")
 const urlFetching = "https://striveschool-api.herokuapp.com/books"
@@ -139,7 +128,8 @@ const bookCategory = document.getElementsByClassName("book-category")
 const bookPrice = document.getElementsByClassName("price-tag")
 const cart = document.querySelector("#cartModal .modal-body .row")
 const itemCartCount = document.getElementById("items-in-cart")
-let arrayCart = []
+const arrayCart = []
+const buttonTrashin = document.getElementById("svuota-carrello")
 
 const addToCart = function (e) {
   const thisTitle = bookTitle[e].innerText
@@ -150,13 +140,7 @@ const addToCart = function (e) {
   const idBook = document.getElementById(e)
   const thisID = idBook.getAttribute("id")
 
-  const singleBookArray = document.getElementById(thisID)
-  const BookArrayTitle = singleBookArray.getElementsByTagName("h5")[0].innerText
-
-  // arrayCart.forEach((bookInCart, index) => {
-  //   if (arrayCart.length === 0) {
-  //     alert("questo titolo è già presente nel carrello")
-  //     console.log("ciao")    } else {
+  console.log(localStorage.getItem("books"))
   arrayCart.push({
     title: thisTitle,
     img: thisImg,
@@ -165,26 +149,37 @@ const addToCart = function (e) {
     price: thisPrice,
     id: thisID,
   })
+  buttonTrashin.classList.remove("disabled")
+  buttonTrashin.removeAttribute("aria-disabled")
 
   localStorage.setItem("books", JSON.stringify(arrayCart))
 
   cartItemFunction(thisImg, thisTitle, thisPrice, thisCategory, thisAsin, thisID)
 
   itemCartCount.innerText = arrayCart.length
-  //   }
-  // })
 }
 
+// Riempio la lista di libri nel carello ogni volta che la pagina viene ricaricata
 memoryCart = localStorage.getItem("books")
-const parseCart = JSON.parse(memoryCart)
 
 if (memoryCart) {
+  const parseCart = JSON.parse(memoryCart)
   parseCart.forEach((book) => {
     arrayCart.push(book)
     cartItemFunction(book.img, book.title, book.price, book.category, book.asin, book.id)
   })
   itemCartCount.innerText = parseCart.length
 }
+
+// controllo se il carrello è vuoto, in caso fosse vero, il bottone viene disabilitato
+const disableSvuotaCarrello = function () {
+  if (arrayCart.length === 0) {
+    buttonTrashin.classList.add("disabled")
+    buttonTrashin.setAttribute("aria-disabled", "true")
+  }
+}
+
+disableSvuotaCarrello()
 
 // Cancella il singolo libro dalla libreria
 const deleteBook = function (e) {
@@ -202,6 +197,7 @@ const deleteCartBook = function (e) {
       arrayCart.splice(index, 1)
       localStorage.setItem("books", JSON.stringify(arrayCart))
       itemCartCount.innerText = arrayCart.length
+      disableSvuotaCarrello()
     }
   })
 }
@@ -210,6 +206,8 @@ const deleteCartBook = function (e) {
 const EmptyCart = function () {
   const TrashinCart = document.querySelector("#cartModal .row")
   TrashinCart.innerHTML = ""
-  localStorage.removeItem("books")
+  localStorage.setItem("books", "")
   itemCartCount.innerText = 0
+  buttonTrashin.classList.add("disabled")
+  buttonTrashin.setAttribute("aria-disabled", "true")
 }
