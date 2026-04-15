@@ -76,28 +76,29 @@ const addToCart = function (e) {
 
   localStorage.setItem("books", JSON.stringify(arrayCart))
   cart.innerHTML += `<div class="card mb-3">
-            <img src="${thisImg}" class="book-img card-img-top" alt="${thisTitle}-cover">
+            <img src="${thisImg}" class="card-img-top" alt="${thisTitle}-cover">
             <div class="card-body">
-                <h5 class="card-title ">${thisTitle}</h5>
-                <h6 class="book-category card-subtitle mb-2 text-body-secondary">${thisCategory}</h6>
+                <h5 class="card-title">${thisTitle}</h5>
+                <h6 class="card-subtitle mb-2 text-body-secondary">${thisCategory}</h6>
                 <p class="card-text">${thisPrice}</p>
-                <h6 class="book-asin card-subtitle mb-2 text-body-secondary mb-3">${thisAsin}</h6>
+                <h6 class="card-subtitle mb-2 text-body-secondary mb-3">${thisAsin}</h6>
             </div>
         </div>`
 }
 
 memoryCart = localStorage.getItem("books")
+
 if (memoryCart) {
   const parseCart = JSON.parse(memoryCart)
   parseCart.forEach((book) => {
     arrayCart.push(book)
     cart.innerHTML += `<div class="card mb-3">
-            <img src="${book.img}" class="book-img card-img-top" alt="${book.title}-cover">
+            <img src="${book.img}" class="card-img-top" alt="${book.title}-cover">
             <div class="card-body">
                 <h5 class="card-title">${book.title}</h5>
-                <h6 class="book-category card-subtitle mb-2 text-body-secondary">${book.category}</h6>
+                <h6 class="card-subtitle mb-2 text-body-secondary">${book.category}</h6>
                 <p class="card-text">${book.price}$</p>
-                <h6 class="book-asin card-subtitle mb-2 text-body-secondary mb-3">${book.asin}</h6>
+                <h6 class="card-subtitle mb-2 text-body-secondary mb-3">${book.asin}</h6>
             </div>
         </div>`
   })
@@ -107,5 +108,5 @@ if (memoryCart) {
 // Cancella il singolo linro
 const deleteBook = function (e) {
   const singleBook = document.getElementById(`book-${e}`)
-  singleBook.classList.add("d-none")
+  singleBook.remove()
 }
