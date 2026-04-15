@@ -1,8 +1,6 @@
 // Iniziamo a alvorare con contenuti verametne dinamici. come ad esempio
 // informazioni meteo, risultati partite, fedd amici sui social
 
-const { Const } = require("three/tsl")
-
 // Queste informazioni vengono recuperate tra noi che siamo il CLIENT
 // e l'esterno che sono i SERVER, tramite protocollo HTTP
 // Questa comunicazione avviene tramite un CLIENT che, attraverso un "HTTP REQUEST"
@@ -42,3 +40,6 @@ console.log(x)
 // l'operazione è andata buon fine
 // esiste per ogni Promis anche un altro blocco, denominato "catch" -> questo è quando l'operazione
 // non va a buon fine e il "catch" va a prendere l'errore
+
+// Per creare effettivamente una operazione di HTTP REQUEST dal JS della nostra pagina
+// si usa il metodo chiamato "fetch()"
