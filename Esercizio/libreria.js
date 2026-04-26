@@ -66,17 +66,17 @@ const creazioneLibri = function () {
         divCol.classList.add("col-12", "col-sm-6", "col-md-4", "col-lg-3", "mb-3")
 
         const divCard = document.createElement("div")
-        divCard.classList.add("card")
+        divCard.classList.add("card", "h-100")
 
         const imgCover = document.createElement("img")
         imgCover.classList.add("book-img", "card-img-top")
         imgCover.setAttribute("src", `${data[i].img}`)
 
         const divCardBody = document.createElement("div")
-        divCardBody.classList.add("card-body")
+        divCardBody.classList.add("card-body", "d-flex", "flex-column")
 
         const h5 = document.createElement("h5")
-        h5.classList.add("card-title", "main-title")
+        h5.classList.add("card-title", "main-title", "flex-grow-1")
         h5.innerText = data[i].title
 
         const h6Category = document.createElement("h6")
@@ -91,7 +91,7 @@ const creazioneLibri = function () {
         h6Asin.classList.add("book-asin", "card-subtitle", "mb-2", "text-body-secondary", "mb-3")
 
         const btnCart = document.createElement("button")
-        btnCart.classList.add("btn", "btn-primary")
+        btnCart.classList.add("btn", "btn-primary", "mb-3")
         btnCart.setAttribute("onclick", `addToCart(${i})`)
         btnCart.innerText = "Aggiungi al carello"
 
